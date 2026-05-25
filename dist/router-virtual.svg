@@ -39,7 +39,7 @@
        id="g132"
        transform="matrix(0.28781414,0,0,0.28781414,124.84148,4.2415714)" /><path
        id="path139-7"
-       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:square;stroke-linejoin:round;stroke-dasharray:6, 6;paint-order:stroke fill markers"
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linejoin:round;stroke-dasharray:4, 2;stroke-dashoffset:4.8;paint-order:stroke fill markers"
        d="m 179.4008,62.907459 a 21,21 0 0 1 -21,21 21,21 0 0 1 -21,-21 21,21 0 0 1 21,-21 21,21 0 0 1 21,21 z" /><path
        style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
        d="M 158.4008,50.87974 V 74.90746"
