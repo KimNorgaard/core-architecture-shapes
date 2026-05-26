@@ -27,7 +27,6 @@ def export_pages():
     if not os.path.exists(DIST_DIR):
         os.makedirs(DIST_DIR)
 
-    # Use the export file if it exists (manual flattening), otherwise use master
     input_file = EXPORT_FILE if os.path.exists(EXPORT_FILE) else SRC_FILE
     print(f"Using input file: {input_file}")
 
@@ -50,16 +49,26 @@ def export_pages():
         filename = slugify(label) + ".svg"
         dest_path = os.path.join(DIST_DIR, filename)
 
-        print(f"Exporting {label} (Page {i + 1}) to {dest_path}...")
+        print(f"Exporting {label} (Page {i + 1})...")
 
-        # Inkscape actions:
-        # 1. select-all:all (selects all objects on the current page context)
-        # 2. object-to-path (ensures shapes like circles/rects are paths)
-        # 3. stroke-to-path (CRITICAL: converts the 2px strokes into shapes so they can be unioned)
-        # 4. selection-union (merges everything into a single production-ready path)
-        # 5. export-do (executes the export)
+        # Action chain for a single compound path:
+        # 1. select-all:all
+        # 2. selection-ungroup
+        # 3. object-to-path
+        # 4. object-stroke-to-path
+        # 5. select-all:all
+        # 6. path-union (merge overlapping)
+        # 7. selection-combine (force into ONE path element)
+        # 8. export-do
         actions = (
-            "select-all:all;object-to-path;stroke-to-path;selection-union;export-do"
+            "select-all:all;"
+            "selection-ungroup;selection-ungroup;"
+            "object-to-path;"
+            "object-stroke-to-path;"
+            "select-all:all;"
+            "path-union;"
+            "selection-combine;"
+            "export-do"
         )
 
         cmd = [
@@ -73,12 +82,9 @@ def export_pages():
         ]
 
         try:
-            subprocess.run(cmd, check=True, capture_output=True)
-        except subprocess.CalledProcessError as _:
-            # If complex actions fail, fallback to a simpler export to ensure we get something
-            print(
-                f"Warning: Complex actions failed for {label}, retrying basic export..."
-            )
+            subprocess.run(cmd, check=True, capture_output=True, text=True)
+        except subprocess.CalledProcessError as e:
+            print(f"  ! Complex actions failed for {label}. Falling back...")
             cmd_basic = [
                 INKSCAPE_PATH,
                 input_file,

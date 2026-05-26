@@ -2,30 +2,38 @@ export default {
   multipass: true,
   plugins: [
     {
-      name: "preset-default",
+      name: 'preset-default',
       params: {
         overrides: {
-          removeViewBox: false,
+          cleanupIds: true,
+          convertShapeToPath: true,
+          mergePaths: true,
         },
       },
     },
-    "convertStyleToAttrs",
     {
-      name: "convertColors",
+      name: 'removeViewBox',
+      active: false,
+    },
+    'convertStyleToAttrs',
+    {
+      name: 'convertColors',
       params: {
         currentColor: true,
       },
     },
     {
-      name: "removeAttrs",
+      name: 'removeAttrs',
       params: {
-        attrs: "(stroke-opacity|fill-opacity|paint-order)",
+        attrs: '(stroke-opacity|fill-opacity|paint-order|id|class-name|stop-color|stop-opacity|overflow)',
       },
     },
     {
-      name: "addAttributesToSVGElement",
+      name: 'addAttributesToSVGElement',
       params: {
-        attributes: [{ fill: "currentColor" }],
+        attributes: [
+          { fill: 'currentColor' },
+        ],
       },
     },
   ],
