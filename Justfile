@@ -2,8 +2,8 @@
 
 set shell := ["bash", "-c"]
 
-# Export, optimize, and update gallery
-all: export-icons optimize update-gallery
+# Export, optimize, and update gallery and draw.io library
+all: export-icons optimize update-gallery drawiolib
 
 # Install dependencies (svgo)
 install:
@@ -27,6 +27,10 @@ optimize:
 update-gallery:
     python3 scripts/generate_gallery.py
 
+# Generate draw.io library
+drawiolib:
+    go run scripts/drawiolib/main.go
+
 # Clean up exported and optimized assets
 clean:
-    rm -rf dist/*.svg dist/optimized/*.svg
+    rm -rf dist/*.svg dist/optimized/*.svg dist/drawio/*.xml

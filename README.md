@@ -14,11 +14,26 @@ A vector library for diagramming infrastructure topologies and network schematic
 ```text
 core-architecture-shapes/
 ├── dist/                                   # Production ready assets (tracked in git)
+│   ├── drawio/                             # Native Draw.io shape library (.xml)
 │   └── optimized/                          # Light/Dark-mode responsive, minified SVGs
 ├── src/                                    # Editable source
 │   └── core-architecture-shapes-master.svg # The un-flattened master Inkscape workbook
 └── scripts/                                # Optimization & pipeline configs
 ```
+
+## Draw.io / diagrams.net Library
+
+The repository includes a natively generated stencil library for Draw.io (diagrams.net). 
+
+To use it:
+
+1. Open a new diagram in [Draw.io](https://app.diagrams.net/)
+2. File -> Open from -> URL...
+3. Paste the raw GitHub URL for the library:
+   `https://raw.githubusercontent.com/KimNorgaard/core-architecture-shapes/main/dist/drawio/core-architecture-shapes.xml`
+4. The shapes will appear in your left-hand sidebar
+
+*Note: The native draw.io shapes support full color customization (both Fill and Line colors) as well as snap-to-edge connection points.*
 
 ## Native Theme Support
 
@@ -60,6 +75,7 @@ This project uses `just` to manage the icon export and optimization pipeline.
 * [Inkscape 1.2+](https://inkscape.org/)
 * [Node.js](https://nodejs.org/)
 * [Python 3](https://www.python.org/)
+* [Go 1.20+](https://go.dev/)
 
 ### Standard Export Pipeline
 
@@ -77,7 +93,7 @@ To export icons from the master SVG and optimize them for production:
     just all
     ```
 
-This will export pages from `src/core-architecture-shapes-master.svg` to `dist/`, then generate optimized versions in `dist/optimized/`.
+This will export pages from `src/core-architecture-shapes-master.svg` to `dist/`, generate optimized versions in `dist/optimized/`, and build the Draw.io stencil library.
 
 ### Advanced Workflow (Manual Flattening)
 
@@ -101,6 +117,8 @@ If an icon requires complex manual geometry (e.g., specific boolean operations t
     * Minify the SVG data and remove Inkscape metadata.
     * Convert all colors to `currentColor`.
     * Ensure a consistent `viewBox="0 0 48 48"`.
+
+3. **Draw.io Generation:** The `scripts/drawiolib/main.go` tool compiles the optimized SVGs into a custom `.xml` library file tailored specifically for the draw.io application parser.
 
 ## License
 

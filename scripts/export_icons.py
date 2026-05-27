@@ -83,7 +83,7 @@ def export_pages():
 
         try:
             subprocess.run(cmd, check=True, capture_output=True, text=True)
-        except subprocess.CalledProcessError as e:
+        except subprocess.CalledProcessError as _:
             print(f"  ! Complex actions failed for {label}. Falling back...")
             cmd_basic = [
                 INKSCAPE_PATH,
